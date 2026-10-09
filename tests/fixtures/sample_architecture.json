@@ -1,0 +1,93 @@
+{
+    "application_name": "Secure Serverless Document Processing",
+    "description": "A scalable and secure serverless document processing application.",
+    "components": [
+        {
+            "id": "route53",
+            "service": "Amazon Route 53",
+            "purpose": "Route users to the application."
+        },
+        {
+            "id": "cloudfront",
+            "service": "Amazon CloudFront",
+            "purpose": "Deliver the web application globally."
+        },
+        {
+            "id": "waf",
+            "service": "AWS WAF",
+            "purpose": "Protect the application from common web attacks."
+        },
+        {
+            "id": "api_gateway",
+            "service": "Amazon API Gateway",
+            "purpose": "Expose application APIs."
+        },
+        {
+            "id": "lambda",
+            "service": "AWS Lambda",
+            "purpose": "Process uploaded documents."
+        },
+        {
+            "id": "s3",
+            "service": "Amazon S3",
+            "purpose": "Store uploaded documents."
+        },
+        {
+            "id": "dynamodb",
+            "service": "Amazon DynamoDB",
+            "purpose": "Store document metadata and processing status."
+        },
+        {
+            "id": "sns",
+            "service": "Amazon SNS",
+            "purpose": "Send document processing notifications."
+        },
+        {
+            "id": "cloudwatch",
+            "service": "Amazon CloudWatch",
+            "purpose": "Monitor application logs and metrics."
+        }
+    ],
+    "connections": [
+        {
+            "source": "route53",
+            "target": "cloudfront",
+            "label": "DNS"
+        },
+        {
+            "source": "cloudfront",
+            "target": "waf",
+            "label": "HTTPS"
+        },
+        {
+            "source": "waf",
+            "target": "api_gateway",
+            "label": "Protected API"
+        },
+        {
+            "source": "api_gateway",
+            "target": "lambda",
+            "label": "API request"
+        },
+        {
+            "source": "lambda",
+            "target": "s3",
+            "label": "Store document"
+        },
+        {
+            "source": "lambda",
+            "target": "dynamodb",
+            "label": "Store status"
+        },
+        {
+            "source": "lambda",
+            "target": "sns",
+            "label": "Processing complete"
+        },
+        {
+            "source": "lambda",
+            "target": "cloudwatch",
+            "label": "Logs and metrics"
+        }
+    ]
+}
